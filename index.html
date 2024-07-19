@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes de Pago</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.20/jspdf.plugin.autotable.min.js"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Multas y Planes de Pago</h1>
+        <form id="payment-form">
+            <label for="name">Nombre del Infractor:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="pm-number">N° de PM:</label>
+            <input type="text" id="pm-number" name="pm-number" required>
+            
+            <label for="fine">Monto de la Multa:</label>
+            <input type="number" id="fine" name="fine" oninput="updatePaymentAmount()" required>
+            
+            <label for="payment-option">Opción de Pago:</label>
+            <select id="payment-option" name="payment-option" onchange="updatePlanOptions()" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="voluntary">Pago Voluntario</option>
+                <option value="plan">Plan de Pagos</option>
+            </select>
+            
+            <div id="plan-options" style="display: none;">
+                <label for="installments">Número de Cuotas:</label>
+                <select id="installments" name="installments" onchange="updatePaymentAmount()">
+                    <option value="1">1 Cuota</option>
+                    <option value="2">2 Cuotas</option>
+                    <option value="3">3 Cuotas</option>
+                </select>
+            </div>
+            
+            <label for="due-date">Fecha Límite:</label>
+            <input type="date" id="due-date" name="due-date" onchange="updatePaymentAmount()" required>
+            
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <div id="payment-amount" style="margin-top: 20px;">
+                <strong>Detalles de Pago:</strong>
+                <div id="amount-display">$0.00</div>
+                <div id="due-date-display"></div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" onclick="refreshPage()">Hacer otro cálculo</button>
+                <button type="button" onclick="generatePDF()">Generar PDF</button>
+                <button type="button" onclick="sendData()">Enviar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
